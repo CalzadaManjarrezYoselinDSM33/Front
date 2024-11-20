@@ -1,0 +1,117 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    margin: 50px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+  
+  label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  input {
+    padding: 10px;
+    font-size: 1.1em;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #e50813;
+    background-color: #333;
+    color: white;
+  }
+  .coverImageSub {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -2;
+  }
+  
+  .coverImageSub img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .coverImageSub::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 88;
+    background-image: linear-gradient(to right bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+  }
+  .login-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    background-image: url("/public/images/home1.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #e50813;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #c50711;
+  }
+  
+  .alert {
+    font-size: 1.2em;
+    color: #28a745;
+    margin-top: 20px;
+  }
+  
+  .error {
+    font-size: 1.2em;
+    color: #e50813;
+    margin-top: 20px;
+  }
+  .signup-link {
+    font-size: 1em;
+    margin-top: 15px;
+    color: white;
+  }
+  
+  .signup-link a {
+    color: #e50813;
+    text-decoration: none;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  @media only screen and (max-width: 768px) {
+    form {
+      width: 90%;
+      padding: 20px;
+    }
+  }
+  
