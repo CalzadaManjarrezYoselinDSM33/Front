@@ -1,0 +1,52 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212; 
+    color: #fff; 
+  }
+  
+ 
+  .profile-card {
+    background-color: #1e1e1e; 
+    border: 2px solid #ff0000; 
+    border-radius: 20px;
+    padding: 40px;
+    width: 600px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  .profile-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%; 
+    border: 3px solid #ff0000; 
+    margin-bottom: 15px;
+  }
+  
+  
+  .profile-name {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0;
+    color: #ff0000; 
+  }
+  
+
+  .profile-email,
+  .profile-role {
+    font-size: 16px;
+    color: #ccc; 
+    margin: 5px 0;
+  }
+  
+  
+  .loading,
+  .error {
+    color: #ff0000;
+    text-align: center;
+  }
+  
