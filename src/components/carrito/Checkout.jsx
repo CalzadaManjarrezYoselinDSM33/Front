@@ -6,7 +6,6 @@ import JsBarcode from "jsbarcode";
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
 
-  // Calcula el total a pagar utilizando useMemo para optimizar el rendimiento
   const totalAmount = useMemo(() => {
     return cart.reduce((total, item) => {
       const itemTotal = (item.price || 0) * (item.quantity || 1);
@@ -34,7 +33,6 @@ const Checkout = () => {
     doc.setFontSize(14);
     doc.text(`Total a pagar: $${totalAmount.toFixed(2)}`, 10, totalY);
 
-    // Generación del código de barras
     const barcodeCanvas = document.createElement("canvas");
     JsBarcode(barcodeCanvas, "1234567890", {
       format: "CODE128",
@@ -44,7 +42,6 @@ const Checkout = () => {
 
     doc.addImage(barcodeImage, "PNG", 10, totalY + 10, 100, 30);
 
-    // Guarda el PDF generado
     doc.save("resumen-compra.pdf");
   };
 
