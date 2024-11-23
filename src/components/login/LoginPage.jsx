@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await fetch("http://localhost:5000/login", {
@@ -16,15 +18,15 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage({ type: "success", text: "Correo con token enviado correctamente." });
+        setMessage({ type: "success", text: "¡Inicio de sesión exitoso!" });
 
-        // Al recibir el rol, redirigir según sea admin o usuario
+        // Guardar el email y redirigir según el rol
         const userRole = data.role;
         localStorage.setItem("userEmail", email);
 
@@ -34,28 +36,21 @@ const Login = () => {
           navigate("/home");
         }
       } else {
-        setMessage({ type: "error", text: data.message || "Credenciales inválidas" });
+        setMessage({ type: "error", text: data.message || "Credenciales inválidas." });
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage({ type: "error", text: "Error de conexión con el servidor" });
+      setMessage({ type: "error", text: "Error de conexión con el servidor." });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
       <h1>FREE MOVIE</h1>
-      
+
       <form onSubmit={handleLogin}>
-        <label>
-          Nombre:
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </label>
         <label>
           Email:
           <input
@@ -65,7 +60,18 @@ const Login = () => {
             required
           />
         </label>
-        <button type="submit">Iniciar Sesión</button>
+        <label>
+          Contraseña:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <button type="submit" disabled={loading}>
+          {loading ? "Cargando..." : "Iniciar Sesión"}
+        </button>
       </form>
 
       <p>¿No tienes cuenta? <a href="/sus">Suscríbete aquí</a></p>

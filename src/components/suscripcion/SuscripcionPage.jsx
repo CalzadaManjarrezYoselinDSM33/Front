@@ -1,47 +1,49 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./suscripcionPage.css";
-import { useNavigate } from "react-router-dom";  
 
-const UserForm = () => {
+const CombinedForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
-  const [message, setMessage] = useState("");
-  const navigate = useNavigate(); 
+  const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await fetch("http://localhost:5000/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, role }),
+      const response = await axios.post("http://localhost:5000/api/register", {
+        name,
+        email,
+        password,
+        role,
       });
 
-      if (response.ok) {
-        setMessage({ type: "success", text: "Usuario guardado con éxito" });
+      if (response.status === 201) {
+        setMessage({ type: "success", text: response.data.message });
         setTimeout(() => {
           if (role === "admin") {
-            navigate("/admin");  
+            navigate("/admin");
           } else {
-            navigate("/");  
+            navigate("/");
           }
         }, 2000);
-      } else {
-        setMessage({ type: "error", text: "Hubo un error al guardar el usuario" });
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage({ type: "error", text: "Error de conexión con el servidor" });
+      if (error.response && error.response.data.message) {
+        setMessage({ type: "error", text: error.response.data.message });
+      } else {
+        setMessage({ type: "error", text: "Error al conectar con el servidor" });
+      }
     }
   };
 
   return (
     <div className="form-container">
-        <h1>FREE MOVIE</h1>
+      <h1>FREE MOVIE</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Nombre:
@@ -62,13 +64,22 @@ const UserForm = () => {
           />
         </label>
         <label>
+          Contraseña:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <label>
           Rol:
           <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="user">Usuario</option>
             <option value="admin">Administrador</option>
           </select>
         </label>
-        <button type="submit">Guardar Usuario</button>
+        <button type="submit">Registrar</button>
       </form>
 
       {message && (
@@ -80,4 +91,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default CombinedForm;

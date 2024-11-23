@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { AuthProvider } from "./components/AuthContext"; // Asegúrate de importar AuthProvider
 import "./App.css";
 import HomePage from "./home/HomePage";
 import SinglePage from "./components/watch/SinglePage";
@@ -13,6 +14,13 @@ import LoginPage from "./components/login/LoginPage";
 import UserProfile from "./components/profile/UserProfile";
 import ContactPage from "./components/contacto/ContactPage";
 import Car from "./components/carrito/Checkout";
+import { useAuth } from "./components/AuthContext"; // Importa el hook de autenticación
+
+// Componente para proteger rutas privadas
+const PrivateRoute = ({ element, ...rest }) => {
+  const { user } = useAuth(); // Obtiene el estado de autenticación del contexto
+  return user ? element : <LoginPage />; // Redirige a login si no está autenticado
+};
 
 function App() {
   useEffect(() => {
@@ -25,8 +33,8 @@ function App() {
   const shouldHideHeader = hideHeaderRoutes.includes(location.pathname);
 
   return (
-    <>
-      {!shouldHideHeader && <Header />} 
+    <AuthProvider> 
+      {!shouldHideHeader && <Header />}
       <Routes>
         <Route path="/home" element={<HomePage />} />
         <Route path="/singlepage/:id" element={<SinglePage />} />
@@ -37,11 +45,10 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/pago" element={<Car />} />
-
+        <Route path="/pago" element={<PrivateRoute element={<Car />} />} />
       </Routes>
       <Footer />
-    </>
+    </AuthProvider>
   );
 }
 
