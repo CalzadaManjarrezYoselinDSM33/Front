@@ -26,7 +26,6 @@ const Login = () => {
       if (response.ok) {
         setMessage({ type: "success", text: "¡Inicio de sesión exitoso!" });
 
-        // Guardar el email y redirigir según el rol
         const userRole = data.role;
         localStorage.setItem("userEmail", email);
 

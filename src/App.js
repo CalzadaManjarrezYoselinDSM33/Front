@@ -45,7 +45,7 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/pago" element={<PrivateRoute element={<Car />} />} />
+        <Route path="/pago" element={<Car />} />
       </Routes>
       <Footer />
     </AuthProvider>

@@ -12,7 +12,6 @@ const UserProfile = () => {
     const storedUserEmail = localStorage.getItem("userEmail");
 
     if (storedUserEmail) {
-      // Fetch user data based on stored email
       fetch(`http://localhost:5000/api/users/${storedUserEmail}`)
         .then((response) => {
           if (!response.ok) {

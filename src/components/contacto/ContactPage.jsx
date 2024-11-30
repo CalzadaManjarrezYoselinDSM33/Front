@@ -87,29 +87,7 @@ const Contact = () => {
         <h3>Información de contacto</h3>
         <p>Email: contacto@moviehub.com</p>
         <p>Teléfono: +1 (123) 456-7890</p>
-        <div className="social-links">
-          <a
-            href="https://facebook.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Facebook
-          </a>
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Twitter
-          </a>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-        </div>
+        
       </div>
     </div>
   );

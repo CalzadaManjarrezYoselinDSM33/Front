@@ -2,6 +2,8 @@ import React, { useMemo } from "react";
 import { useCart } from "../context/CartContext";
 import { jsPDF } from "jspdf";
 import JsBarcode from "jsbarcode";
+import "./car.css";
+
 
 const Checkout = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -34,7 +36,7 @@ const Checkout = () => {
     doc.text(`Total a pagar: $${totalAmount.toFixed(2)}`, 10, totalY);
 
     const barcodeCanvas = document.createElement("canvas");
-    JsBarcode(barcodeCanvas, "1234567890", {
+    JsBarcode(barcodeCanvas, "625314643", {
       format: "CODE128",
       displayValue: true,
     });
@@ -46,113 +48,102 @@ const Checkout = () => {
   };
 
   return (
-    <div
-      className="checkout"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
-        padding: "20px",
-      }}
-    >
-      <h1 style={{ fontSize: "2rem", color: "#FFFFFF", marginBottom: "20px" }}>
-        Resumen de la compra
-      </h1>
-      <ul
+    
+    <div className="cart-item" style={{ textAlign: "center", marginBottom: "20px" }}>
+    <h1 style={{ fontSize: "2rem", color: "#FFFFFF", margin: "20px 0" }}>Carrito de Compras</h1>
+  
+   
+      <ul className="cart-list">
+  {cart.map((item) => {
+    const imageSrc = item.image
+      ? `http://localhost:5000${item.image}`
+      : item.cover;
+    return (
+      <li
+        key={item.id}
         style={{
-          listStyleType: "none",
-          padding: "0",
-          width: "100%",
-          maxWidth: "400px",
+          marginBottom: "20px",
+          borderBottom: "1px solid #ddd",
+          paddingBottom: "15px",
+          display: "flex", 
+          alignItems: "center", 
+          gap: "20px", 
         }}
       >
-        {cart.map((item) => {
-          const imageSrc = item.image ? `http://localhost:5000${item.image}` : item.cover;
-          return (
-            <li
-              key={item.id}
-              style={{
-                marginBottom: "20px",
-                textAlign: "center",
-                borderBottom: "1px solid #ddd",
-                paddingBottom: "15px",
-              }}
-            >
-              <div className="cart-item">
-                <img src={imageSrc} alt={item.title} 
-                 style={{
-                  width: "100px",
-                  height: "150px",
-                  objectFit: "cover",
-                  marginBottom: "10px",
-                }}/>
-                <h3 style={{ fontSize: "1.2rem", color: "#FFFFFF" }}>{item.title}</h3>
-                <p style={{ fontSize: "1rem", color: "#FFFFFF", margin: "5px 0" }}>
-                  Precio: ${item.price}
-                </p>
-                <p style={{ fontSize: "1rem", color: "#FFFFFF", margin: "5px 0" }}>
-                  Cantidad: {item.quantity || 1}
-                </p>
-                <button
-                  onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
-                  style={{
-                    backgroundColor: "#4caf50",
-                    color: "#fff",
-                    border: "none",
-                    padding: "10px 20px",
-                    borderRadius: "5px",
-                    marginTop: "10px",
-                    cursor: "pointer",
-                    transition: "background-color 0.3s ease",
-                  }}
-                >
-                  Agregar más
-                </button>
-                <br />
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  style={{
-                    backgroundColor: "#ff4d4f",
-                    color: "#fff",
-                    border: "none",
-                    padding: "10px 20px",
-                    borderRadius: "5px",
-                    marginTop: "10px",
-                    cursor: "pointer",
-                    transition: "background-color 0.3s ease",
-                  }}
-                >
-                  Eliminar
-                </button>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+        <img
+          src={imageSrc}
+          alt={item.title}
+          style={{
+            width: "100px",
+            height: "150px",
+            objectFit: "cover",
+          }}
+        />
 
-      <h2 style={{ fontSize: "1.5rem", color: "#FFFFFF", marginTop: "20px" }}>
-        Total a pagar: ${totalAmount.toFixed(2)}
-      </h2>
+      
+        <div
+          style={{
+            flex: "1", 
+            display: "flex",
+            flexDirection: "column", 
+            justifyContent: "center",
+            color: "#FFFFFF",
+          }}
+        >
+          <h3 style={{ fontSize: "1.2rem", marginBottom: "10px" }}>{item.title}</h3>
+          <p style={{ fontSize: "1rem", margin: "5px 0" }}>Precio: ${item.price}</p>
+          <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+            Cantidad: {item.quantity || 1}
+          </p>
+        </div>
 
-      <button
-        onClick={generatePDF}
-        style={{
-          backgroundColor: "#FF0000",
-          color: "#fff",
-          border: "none",
-          padding: "12px 20px",
-          fontSize: "1rem",
-          borderRadius: "5px",
-          cursor: "pointer",
-          marginTop: "20px",
-          transition: "background-color 0.3s ease",
-        }}
-      >
-        Generar PDF con Código de Barras
-      </button>
+       
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column", 
+            gap: "10px", 
+          }}
+        >
+          <button
+            onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
+            style={{
+              backgroundColor: "#4caf50",
+              color: "#fff",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
+            }}
+          >
+            Agregar más
+          </button>
+          <button
+            onClick={() => removeFromCart(item.id)}
+            style={{
+              backgroundColor: "#ff0000",
+              color: "#fff",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
+            }}
+          >
+            Eliminar
+          </button>
+        </div>
+      </li>
+    );
+  })}
+</ul>
+      <div className="summary">
+        <h2>Total a pagar: ${totalAmount.toFixed(2)}</h2>
+        <button onClick={generatePDF} className="generate-pdf-button">
+          Generar PDF con Código de Barras
+        </button>
+      </div>
     </div>
   );
 };
